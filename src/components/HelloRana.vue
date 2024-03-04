@@ -8,8 +8,8 @@
   
       <!-- List of items -->
       <ul class="list-group mt-3">
-        <li v-for="(item, index) in items" :key="item.id" class="list-group-item border p-3">
-          {{ item.name }}
+        <li v-for="(item, index) in items" :key="item" class="list-group-item border p-3">
+          {{ item }}
           <button @click="editItem(index)" class="btn btn-sm btn-info ms-2">Edit</button>
           <button @click="deleteItem(index)" class="btn btn-sm btn-danger ms-2">Delete</button>
         </li>
@@ -29,11 +29,7 @@
     name: 'HelloRana',
     data() {
       return {
-        items: [
-          { id: 1, name: 'Item 1' },
-          { id: 2, name: 'Item 2' },
-          { id: 3, name: 'Item 3' }
-        ],
+        items: ['item-1','item-2','item-3'],
         newItemName: '',
         editedItemName: '',
         isEditing: null
@@ -42,30 +38,28 @@
     methods: {
       addItem() {
         if (this.newItemName.trim() !== '') {
-          this.items.push({
-            id: this.items.length + 1,
-            name: this.newItemName
-          });
+          this.items.push(this.newItemName);
           this.newItemName = '';
         }
       },
+      deleteItem(index) {
+          this.items.splice(index, 1);
+      },
       editItem(index) {
-        this.editedItemName = this.items[index].name;
-        this.isEditing = index;
+          this.editedItemName = this.items[index];
+          this.isEditing = index;
       },
       updateItem() {
-        if (this.editedItemName.trim() !== '') {
-          this.items[this.isEditing].name = this.editedItemName;
-          this.cancelEdit();
-        }
+        this.items[this.isEditing] = this.editedItemName;
+        this.isEditing = null;
+        this.editedItemName = '';
       },
       cancelEdit() {
         this.isEditing = null;
         this.editedItemName = '';
-      },
-      deleteItem(index) {
-        this.items.splice(index, 1);
       }
+
+     
     }
   };
   </script>
@@ -73,4 +67,4 @@
   <style scoped>
   /* Add custom CSS styles here if needed */
   </style>
-  
+  ``
